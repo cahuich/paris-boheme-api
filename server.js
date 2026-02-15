@@ -1,27 +1,19 @@
-const express = require("express")
-const cors = require("cors")
+import express from "express";
+import cors from "cors";
 
-const app = express()
-app.use(cors())
+const app = express();
 
-app.get("/api/articles", (req, res) => {
-  res.json([
-    { id: 1, title: "Artículo 1", slug: "articulo-1" },
-    { id: 2, title: "Artículo 2", slug: "articulo-2" }
-  ])
-})
+// Permitir solo al frontend en Vercel
+app.use(cors({
+  origin: "https://paris-boheme.vercel.app", // tu frontend
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  credentials: true, // si usas cookies o autenticación
+}));
 
+// Rutas
 app.get("/api/featured-articles", (req, res) => {
-  res.json([
-    { id: 1, title: "Destacado", slug: "destacado" }
-  ])
-})
+  res.json({ message: "Hola desde backend" });
+});
 
-app.get("/api/categories", (req, res) => {
-  res.json(["monumentos", "cultura", "historia"])
-})
-
-const PORT = process.env.PORT || 10000
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
-})
+const PORT = process.env.PORT || 10000;
+app.listen(PORT, () => console.log(`Servidor corriendo en puerto ${PORT}`));

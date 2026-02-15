@@ -2,6 +2,7 @@ import express from "express";
 import { corsMiddleware } from "./config/cors";
 
 const app = express();
+
 app.use(corsMiddleware);
 app.use(express.json());
 

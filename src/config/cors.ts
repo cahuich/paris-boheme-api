@@ -1,7 +1,9 @@
-export const FRONTEND_URL = 'https://paris-boheme.vercel.app';
+// src/config/cors.ts
 import cors from 'cors';
 
+const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:3000';
+
 export const corsMiddleware = cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
-  credentials: true
+  origin: FRONTEND_URL,
+  credentials: true,
 });

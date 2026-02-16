@@ -10,6 +10,12 @@ const express_rate_limit_1 = __importDefault(require("express-rate-limit"));
 const cors_1 = require("./config/cors");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
+app.get("/api/articles", (req, res) => {
+    res.json([{ title: "Test article" }]);
+});
+app.get("/api/featured-articles", (req, res) => {
+    res.json([{ title: "Featured article" }]);
+});
 /**
  * 🔐 Seguridad HTTP headers
  */

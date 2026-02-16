@@ -8,6 +8,14 @@ dotenv.config();
 
 const app = express();
 
+app.get("/api/articles", (req, res) => {
+  res.json([{ title: "Test article" }]);
+});
+
+app.get("/api/featured-articles", (req, res) => {
+  res.json([{ title: "Featured article" }]);
+});
+
 /**
  * 🔐 Seguridad HTTP headers
  */

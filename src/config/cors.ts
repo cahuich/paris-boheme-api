@@ -2,8 +2,8 @@ import cors from "cors";
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://paris-boheme.vercel.app"
-];
+  process.env.FRONTEND_URL
+].filter(Boolean);
 
 export const corsMiddleware = cors({
   origin: function (origin, callback) {

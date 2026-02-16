@@ -11,8 +11,7 @@ const allowedOrigins = [
   "https://paris-boheme.vercel.app"
 ];
 
-app.use(
-  cors({
+export const corsMiddleware = cors({
     origin: function (origin, callback) {
       if (!origin) return callback(null, true);
 

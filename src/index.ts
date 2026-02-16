@@ -1,23 +1,47 @@
-// src/server.ts
 import express from "express";
-import cors from "cors";
+import dotenv from "dotenv";
+import helmet from "helmet";
+import rateLimit from "express-rate-limit";
+import { corsMiddleware } from "./config/cors";
+
+dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
-// Configuración de CORS (cambiar URL al frontend de Vercel)
-const FRONTEND_URL = process.env.FRONTEND_URL || "https://paris-boheme.vercel.app";
+/**
+ * 🔐 Seguridad HTTP headers
+ */
+app.use(
+  helmet({
+    contentSecurityPolicy: false // desactiva CSP si es API pura
+  })
+);
 
-const allowedOrigins = [
-  "http://localhost:5173",
-  FRONTEND_URL
-].filter(Boolean);
+/**
+ * 🚦 Rate limiting global
+ */
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutos
+  max: 100, // máximo 100 requests por IP
+  standardHeaders: true,
+  legacyHeaders: false
+});
 
-app.use(cors({ origin: FRONTEND_URL }));
+app.use(limiter);
+
+/**
+ * Necesario en Render (proxy)
+ */
+app.set("trust proxy", 1);
+
+app.use(corsMiddleware);
+app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send("API Paris-Boheme funcionando!");
+  res.json({ status: "API secure and running" });
 });
+
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en puerto ${PORT}`);

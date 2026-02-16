@@ -7,8 +7,8 @@ exports.corsMiddleware = void 0;
 const cors_1 = __importDefault(require("cors"));
 const allowedOrigins = [
     "http://localhost:5173",
-    "https://paris-boheme.vercel.app"
-];
+    process.env.FRONTEND_URL
+].filter(Boolean);
 exports.corsMiddleware = (0, cors_1.default)({
     origin: function (origin, callback) {
         if (!origin)

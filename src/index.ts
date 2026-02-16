@@ -7,6 +7,12 @@ const PORT = process.env.PORT || 3000;
 
 // Configuración de CORS (cambiar URL al frontend de Vercel)
 const FRONTEND_URL = process.env.FRONTEND_URL || "https://paris-boheme.vercel.app";
+
+const allowedOrigins = [
+  "http://localhost:5173",
+  FRONTEND_URL
+].filter(Boolean);
+
 app.use(cors({ origin: FRONTEND_URL }));
 
 app.get("/", (req, res) => {

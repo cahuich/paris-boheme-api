@@ -1,9 +1,35 @@
-// src/config/cors.ts
-import cors from 'cors';
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
 
-const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:3000';
+dotenv.config();
 
-export const corsMiddleware = cors({
-  origin: FRONTEND_URL,
-  credentials: true,
+const app = express();
+
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://paris-boheme.vercel.app"
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true
+  })
+);
+
+app.use(express.json());
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en puerto ${PORT}`);
 });
